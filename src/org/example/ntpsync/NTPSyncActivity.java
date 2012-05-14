@@ -60,9 +60,9 @@ public class NTPSyncActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		//setContentView(R.layout.main);
 
-		mTimeDisplay = (TextView) findViewById(R.id.time1);
+		mTimeDisplay = null;//(TextView) findViewById(R.id.time1);
 
 		mFormat = SimpleDateFormat.getTimeInstance(DateFormat.FULL);
 		// Button b = (Button) findViewById(R.id.button1);

@@ -36,7 +36,7 @@ public class NTPSyncService extends Service {
 	private final IBinder mBinder = new LocalBinder();
 
 	public class LocalBinder extends Binder {
-		NTPSyncService getService() {
+		public NTPSyncService getService() {
 			return NTPSyncService.this;
 		}
 	}

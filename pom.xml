@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.example.ntpsync</groupId>
-    <artifactId>ntpsyncapp</artifactId>
+    <groupId>mobisocial.silentdisco</groupId>
+    <artifactId>silentdisco</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>apk</packaging>
-    <name>NTPSync</name>
+    <name>SilentDisco</name>
 
     <dependencies>
         <dependency>
@@ -14,7 +14,13 @@
             <version>2.3.3</version>
             <scope>provided</scope>
         </dependency>
-	<!--
+        <dependency>
+     		<groupId>org.mobisocial</groupId>
+     		<artifactId>SocialKit</artifactId>
+     		<version>0.3.0-SNAPSHOT</version>
+   		</dependency>
+	        <!-- 
+        
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-android</artifactId>
@@ -73,4 +79,11 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+   		<repository>
+     		<id>prpl-public</id>
+     		<name>PrPl Public Repository</name>
+     		<url>http://prpl.stanford.edu:8081/nexus/content/repositories/public</url>
+   		</repository>
+ 	</repositories>
 </project>
