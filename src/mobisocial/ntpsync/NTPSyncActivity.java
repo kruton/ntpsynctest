@@ -1,4 +1,4 @@
-package org.example.ntpsync;
+package mobisocial.ntpsync;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

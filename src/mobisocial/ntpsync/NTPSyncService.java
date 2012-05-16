@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.example.ntpsync;
+package mobisocial.ntpsync;
 
 import java.io.IOException;
 import java.net.InetAddress;

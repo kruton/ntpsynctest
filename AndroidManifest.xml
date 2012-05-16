@@ -15,7 +15,7 @@
             </intent-filter>
         </activity>
 
-		<activity android:name="mobisocial.silentdisco.SilentDiscoActivity"
+		<activity android:name=".SilentDiscoActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         
-        <service android:name="org.example.ntpsync.NTPSyncService"
+        <service android:name="mobisocial.ntpsync.NTPSyncService"
                  android:exported="false">
         </service>
 

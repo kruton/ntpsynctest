@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import mobisocial.ntpsync.NTPSyncService;
 import mobisocial.socialkit.Obj;
 import mobisocial.socialkit.musubi.DbFeed;
 import mobisocial.socialkit.musubi.DbIdentity;
@@ -19,7 +20,6 @@ import mobisocial.silentdisco.R.id;
 import mobisocial.silentdisco.R.layout;
 import mobisocial.silentdisco.R.raw;
 
-import org.example.ntpsync.NTPSyncService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
