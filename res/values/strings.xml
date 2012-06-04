@@ -2,5 +2,6 @@
 <resources>
     <string name="hello">Hello World, TicTacToeActivity!</string>
     <string name="app_name">Silent Disco</string>
+    <string name="search_name">Silent Disco Song Picker</string>
     <string name="clear">Clear</string>
 </resources>

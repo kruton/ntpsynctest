@@ -1,5 +1,6 @@
 package mobisocial.silentdisco;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -50,6 +52,7 @@ public class SilentDiscoActivity extends Activity {
     private Button mPauseButton;
     private MediaPlayer mMediaPlayer;
 	private NTPSyncService mBoundService;
+	private SilentDiscoPlayer mBoundPlayer;
 
 	private TextView mTimeDisplay;
 	private DateFormat mFormat;
@@ -87,6 +90,21 @@ public class SilentDiscoActivity extends Activity {
 			mBoundService = null;
 		}
 	};
+	
+	private ServiceConnection mPlayerConnection = new ServiceConnection() {
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			mBoundPlayer = ((SilentDiscoPlayer.LocalBinder) service).getService();
+			Log.w(TAG, "player service connected");
+			mBoundPlayer.enqueueSong("test", 7);
+
+		}
+
+		public void onServiceDisconnected(ComponentName className) {
+			Log.w(TAG, "time service disconnected");
+
+			mBoundPlayer = null;
+		}
+	};
 
 
     //private final List<Button> mmSquares = new ArrayList<Button>();
@@ -111,6 +129,14 @@ public class SilentDiscoActivity extends Activity {
 		mTimeDisplay = (TextView) findViewById(R.id.time1);
 		mFormat = SimpleDateFormat.getTimeInstance(DateFormat.FULL);
 		Log.w(TAG, "creating silent disco");
+		
+		Button search = (Button) findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), YoutubePickerActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
 
 
 //        for (int i = 0; i < 9; i++) {
@@ -139,8 +165,12 @@ public class SilentDiscoActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 
-		Intent i = new Intent(this, NTPSyncService.class);
-		bindService(i, mConnection, BIND_AUTO_CREATE);
+		Intent ntpI = new Intent(this, NTPSyncService.class);
+		bindService(ntpI, mConnection, BIND_AUTO_CREATE);
+		
+		Intent playI = new Intent(this, SilentDiscoPlayer.class);
+		bindService(playI, mPlayerConnection, BIND_AUTO_CREATE);
+
 	}
 
 	@Override
@@ -148,6 +178,8 @@ public class SilentDiscoActivity extends Activity {
 		super.onStop();
 
 		unbindService(mConnection);
+		unbindService(mPlayerConnection);
+
 	}
 
     /**
@@ -168,7 +200,19 @@ public class SilentDiscoActivity extends Activity {
     	long delta = -1;
         if(state.optBoolean("play")){
         	if(mMediaPlayer == null){
-        		mMediaPlayer = MediaPlayer.create(SilentDiscoActivity.this, R.raw.arn);
+//        		mMediaPlayer = MediaPlayer.create(SilentDiscoActivity.this, R.raw.arn);
+        		try {
+            		mMediaPlayer = MediaPlayer.create(SilentDiscoActivity.this, 
+            				Uri.parse("rtsp://v3.cache7.c.youtube.com/CjYLENy73wIaLQlNya7a5kKkDhMYDSANFEIJbXYtZ29vZ2xlSARSBWluZGV4YKvnz7_Go62-Tww=/0/0/0/video.3gp"));
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+        		if (mMediaPlayer == null) 
+        			mMediaPlayer = MediaPlayer.create(SilentDiscoActivity.this, R.raw.arn);
         		mMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
         			public void onCompletion(MediaPlayer mp) {
         				// TODO Auto-generated method stub
@@ -325,8 +369,8 @@ public class SilentDiscoActivity extends Activity {
 
     	@Override
     	protected FeedRenderable getFeedView(JSONObject state) {
-    		try {
-    			JSONArray squares = state.getJSONArray("s");
+//    		try {
+    			//JSONArray squares = state.getJSONArray("s");
     			StringBuilder html = new StringBuilder("<html><head><style>")
     			.append("td { min-width:18px; }")
     			.append("table { padding:8px; border-collapse: collapse;}")
@@ -335,14 +379,14 @@ public class SilentDiscoActivity extends Activity {
     			.append(".top { border-bottom:1px solid black; }")
     			.append(".bottom { border-top:1px solid black; }")
     			.append("</style></head>")
-    			.append("<body><div>");
+    			.append("<body><div>Hi");
     			html.append("</div></body>")
     			.append("</html>");
     			return FeedRenderable.fromHtml(html.toString());
-    		} catch (JSONException e) {
-    			Log.w(TAG, "Error getting renderable state");
-    			return FeedRenderable.fromText("[TicTacToe rendering error]");
-    		}
+//    		} catch (JSONException e) {
+//    			Log.w(TAG, "Error getting renderable state");
+//    			return FeedRenderable.fromText("[TicTacToe rendering error]");
+//    		}
     	}
     }
 

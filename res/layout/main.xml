@@ -39,9 +39,16 @@
     
     <TextView android:layout_width="wrap_content"
     android:layout_height="wrap_content" android:id="@+id/time1" android:text="time"></TextView>
-    <ImageView  
-    	android:id="@+id/image"
-    	android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search" />
+
 </LinearLayout>
+
+
+
 </LinearLayout>

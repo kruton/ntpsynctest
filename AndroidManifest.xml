@@ -3,7 +3,9 @@
       package="mobisocial.silentdisco"
       android:versionCode="1"
       android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="6" />
+    <uses-sdk android:minSdkVersion="10" />
+    <uses-permission
+        android:name="android.permission.INTERNET" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:name="mobisocial.silentdisco.SilentDiscoKickoffActivity"
@@ -24,6 +26,13 @@
             </intent-filter>
         </activity>
         
+        <activity android:name=".YoutubePickerActivity"
+        		  android:label="@string/search_name">
+        </activity>
+        
+        <service android:name=".SilentDiscoPlayer"
+                 android:exported="false" >
+        </service>
         <service android:name="mobisocial.ntpsync.NTPSyncService"
                  android:exported="false">
         </service>
