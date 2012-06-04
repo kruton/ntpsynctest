@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import mobisocial.ntpsync.NTPSyncService;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -14,9 +16,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,6 +36,8 @@ public class YoutubePickerActivity extends Activity {
 	private ListView list;
 	private JSONAdapter jsonAdapter;
     private MediaPlayer mMediaPlayer;
+	private NTPSyncService mBoundService;
+
     private EditText search;
     private final String YOUTUBE_URL = "https://gdata.youtube.com/feeds/api/videos?v=2&alt=jsonc&format=6&max-results=10&q=";
     private final String TAG = "YTPicker";
@@ -54,6 +62,57 @@ public class YoutubePickerActivity extends Activity {
         //search.setOnQueryTextListener(mSearchListener);
 	}
 	
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		Intent ntpI = new Intent(this, NTPSyncService.class);
+		bindService(ntpI, mConnection, BIND_AUTO_CREATE);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		
+		unbindService(mConnection);
+	}
+	
+	private void returnResult(String title, String url) {
+		Intent intent = new Intent();
+		intent.putExtra("title", title);
+		intent.putExtra("songUrl", url);
+		intent.putExtra("time", getRealTime());
+
+		setResult(RESULT_OK, intent);
+
+		YoutubePickerActivity.this.finish();
+	}
+	
+	private ServiceConnection mConnection = new ServiceConnection() {
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			mBoundService = ((NTPSyncService.LocalBinder) service).getService();
+			Log.w(TAG, "time service connected");
+		}
+
+		public void onServiceDisconnected(ComponentName className) {
+			Log.w(TAG, "time service disconnected");
+			mBoundService = null;
+		}
+	};
+	
+	private long getRealTime() {
+		NTPSyncService service = mBoundService;
+
+		if (service == null) 
+			return -1;
+		
+		Log.i(TAG, "returning time: " + System.currentTimeMillis() + service.getOffset());
+
+		return System.currentTimeMillis() + service.getOffset();
+	}
+
+
+	
 //	private SearchView.OnQueryTextListener mSearchListener = new SearchView.OnQueryTextListener() {
 //		@Override
 //		public boolean onQueryTextChange(String arg0) {
@@ -74,9 +133,11 @@ public class YoutubePickerActivity extends Activity {
 				Log.i(TAG, "clicked item: " + item.optString("title"));
 				
 				// TODO add song to playlist
+				JSONObject content = item.optJSONObject("content");
+				returnResult(item.optString("title"), content.optString("6"));
 				
 				/* Play song picked:
-				 */ 
+				 *
 	        	if(mMediaPlayer == null)
 	        		mMediaPlayer = new MediaPlayer();
 	        	else
@@ -101,9 +162,8 @@ public class YoutubePickerActivity extends Activity {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} 
-
-//				YoutubePickerActivity.this.finish();
+				} */
+				
 		}
 	};
 	

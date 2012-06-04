@@ -16,14 +16,14 @@
     	android:layout_height="fill_parent"
     	android:layout_margin="10dip"
     	android:textSize="24dip"
-    	android:text="play"
+    	android:text="sync"
     	android:width="90dip"/>
   	<Button android:id="@+id/pause"
     	android:layout_width="wrap_content"
     	android:layout_height="fill_parent"
     	android:layout_margin="10dip"
     	android:textSize="24dip"
-    	android:text="pause"
+    	android:text="stop"
     	android:width="90dip"/>
    	
 </LinearLayout>
