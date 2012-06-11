@@ -21,7 +21,6 @@ class JSONAdapter extends BaseAdapter implements ListAdapter {
     private final String TAG = "YTPicker_JSON";
     
     public JSONAdapter(Activity activity, JSONObject json) {
-    	int i = 7; // compiler error
     	try {
 			JSONObject data = (JSONObject) json.optJSONObject("data");
 			if(data != null)

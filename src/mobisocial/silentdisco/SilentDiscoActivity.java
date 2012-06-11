@@ -66,6 +66,7 @@ public class SilentDiscoActivity extends Activity {
 			final SilentDiscoPlayer player = mBoundPlayer;
 			if (player == null)
 				return;
+			
 			mProgressBar.setProgress(player.getPosition());
 		}
 	};
@@ -226,11 +227,11 @@ public class SilentDiscoActivity extends Activity {
 			state.put("queue", newQueue);
 			long startTime;
 			if(newQueue.length() == 0){
-				startTime = time + 10000; // + delay
+				startTime = time + 8000; // + delay
 			}
 			else {
 				 JSONObject lastSong = newQueue.getJSONObject(newQueue.length()-1);
-				 startTime = lastSong.getLong("startTime") + lastSong.getInt("duration") * 1000 + 5000;
+				 startTime = lastSong.getLong("startTime") + lastSong.getInt("duration") * 1000;// + 5000;
 			}
 			
 			JSONObject newSong = new JSONObject();
@@ -292,9 +293,9 @@ public class SilentDiscoActivity extends Activity {
 						list += "...";
 					
 					if(i < 5) {
-						list += song.optString("title") + "\t" + 
-					            song.getLong("startTime") +"\t"+
-					            end +"\n";
+						list += song.optString("title") + "\n";// + 
+//					            song.getLong("startTime") +"\t"+
+//					            end +"\n";
 					
 					}
 					//else don't show the song

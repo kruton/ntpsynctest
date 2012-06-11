@@ -48,7 +48,6 @@ public class YoutubePickerActivity extends Activity {
 		setContentView(R.layout.search);
 		list = (ListView) this.findViewById(R.id.searchResults);
         search = (EditText) this.findViewById(R.id.searchBox);
-        int i =7; // fix compiler
 		list.setOnItemClickListener(mListListener);
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
