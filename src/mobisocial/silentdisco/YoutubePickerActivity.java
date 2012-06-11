@@ -35,7 +35,7 @@ import android.widget.TextView;
 public class YoutubePickerActivity extends Activity {
 	private ListView list;
 	private JSONAdapter jsonAdapter;
-    private MediaPlayer mMediaPlayer;
+//    private MediaPlayer mMediaPlayer;
 	private NTPSyncService mBoundService;
 
     private EditText search;
@@ -47,8 +47,9 @@ public class YoutubePickerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search);
 		list = (ListView) this.findViewById(R.id.searchResults);
-		list.setOnItemClickListener(mListListener);
         search = (EditText) this.findViewById(R.id.searchBox);
+        int i =7; // fix compiler
+		list.setOnItemClickListener(mListListener);
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             	Log.d(TAG, "editor action");
@@ -77,11 +78,12 @@ public class YoutubePickerActivity extends Activity {
 		unbindService(mConnection);
 	}
 	
-	private void returnResult(String title, String url) {
+	private void returnResult(String title, String url, int duration) {
 		Intent intent = new Intent();
 		intent.putExtra("title", title);
 		intent.putExtra("songUrl", url);
 		intent.putExtra("time", getRealTime());
+		intent.putExtra("duration", duration);
 
 		setResult(RESULT_OK, intent);
 
@@ -132,9 +134,9 @@ public class YoutubePickerActivity extends Activity {
 		
 				Log.i(TAG, "clicked item: " + item.optString("title"));
 				
-				// TODO add song to playlist
+				// Return song title, resource url and duration
 				JSONObject content = item.optJSONObject("content");
-				returnResult(item.optString("title"), content.optString("6"));
+				returnResult(item.optString("title"), content.optString("6"), item.optInt("duration"));
 				
 				/* Play song picked:
 				 *

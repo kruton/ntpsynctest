@@ -21,6 +21,7 @@ class JSONAdapter extends BaseAdapter implements ListAdapter {
     private final String TAG = "YTPicker_JSON";
     
     public JSONAdapter(Activity activity, JSONObject json) {
+    	int i = 7; // compiler error
     	try {
 			JSONObject data = (JSONObject) json.optJSONObject("data");
 			if(data != null)
@@ -56,9 +57,9 @@ class JSONAdapter extends BaseAdapter implements ListAdapter {
         JSONObject jsonObject = getItem(position);  
 
         TextView title = (TextView) convertView.findViewById(R.id.title);
-        title.setText(jsonObject.optString("title", "null"));
-        
         TextView subtitle = (TextView) convertView.findViewById(R.id.subtitle);        
+
+        title.setText(jsonObject.optString("title", "null"));        
         subtitle.setText(convertSecondsToTime(jsonObject.optInt("duration")) + " \t " + 
                          jsonObject.optString("viewCount") + " views, " + 
         				 jsonObject.optString("likeCount") + " likes");

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, TicTacToeActivity!</string>
     <string name="app_name">Silent Disco</string>
     <string name="search_name">Silent Disco Song Picker</string>
+    
     <string name="clear">Clear</string>
+    <string name="stop">Stop</string>
+    <string name="sync">Sync</string>
+    <string name="search">Add...</string>
 </resources>
